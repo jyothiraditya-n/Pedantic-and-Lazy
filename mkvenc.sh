@@ -15,12 +15,16 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 errcho() {
-	printf "%s\n" "$*" >&2
+	printf "$0: Error: %s\n" "$*" >&2
+}
+
+warncho() {
+	printf "$0: Warning: %s\n" "$*"
 }
 
 checkcmd() {
 	command -v "$1" || {
-		errcho "Error: Please install '$1'."
+		errcho "Please install '$1'."
 		exit 1
 	}
 }
@@ -54,7 +58,7 @@ read -rp "FFMpeg Tune [film / animation / stillimage]: " ffmpeg_tune
 
 for i in "$@"; do
 	if [[ "$i" != *.mkv ]]; then
-		echo "$0: Warning: Ignoring '$i', because it's not an MKV file."
+		warncho "Ignoring '$i', because it's not an MKV file."
 		continue
 	fi
 	
