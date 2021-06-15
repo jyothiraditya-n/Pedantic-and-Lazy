@@ -5,7 +5,7 @@ A collection of somewhat robust scripts, made out of kludged together code to ac
 
 Run `make all` to run `shellcheck` on the script files. (You'll need to have `shellcheck` installed for this to work.
 
-Run `make install` to install the script files and `make remove` to uninstall them. The default folder is `~/.local/bin`, but you can specify a path by running `TARGET=<XYZ> make install` or `TARGET=<XYZ> make remove`. Alternatively you can change the line in the makefile that sets the `TARGET` variable.
+Run `make install` to install the script files and `make remove` to uninstall them. The default folder is `~/.local/bin`, but you can specify a path by running `DESTDIR=<XYZ> make install` or `DESTDIR=<XYZ> make remove`. Alternatively you can change the line in the makefile that sets the `DESTDIR` variable.
 
 Notably, installing to root-protected folders won't work because the makefile doesn't include `sudo` for privilege escalation. If you need it, you can manually add `sudo` to the makefile or simply run the whole `make` process as root. (The latter is terrible practice, but a few bad decisions never hurt anyone.)
 

@@ -12,14 +12,14 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
-TARGET ?= $(HOME)/.local/bin
+DESTDIR ?= $(HOME)/.local/bin
 SCRIPTS += $(wildcard *.sh)
-DESTS = $(patsubst %.sh,$(TARGET)/pal.%,$(SCRIPTS))
+DESTS = $(patsubst %.sh,$(DESTDIR)/pal.%,$(SCRIPTS))
 
-$(TARGET) :
-	mkdir -p $(TARGET)
+$(DESTDIR) :
+	mkdir -p $(DESTDIR)
 
-$(DESTS) : $(TARGET)/pal.% : %.sh $(TARGET) 
+$(DESTS) : $(DESTDIR)/pal.% : %.sh $(DESTDIR) 
 	cp $< $@
 
 .DEFAULT_GOAL = all
@@ -32,5 +32,5 @@ clean : ;
 
 install : $(DESTS) ;
 
-remove : $(TARGET)
+remove : $(DESTDIR)
 	-$(foreach dest,$(DESTS),rm $(dest);)
