@@ -14,19 +14,15 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
-errcho() {
-	printf "$0: error: %s\n" "$*" >&2
-}
-
-warncho() {
-	printf "$0: warning: %s\n" "$*"
-}
-
 checkcmd() {
 	command -v "$1" || {
 		errcho " cannot find command '$1'."
 		exit 1
 	}
+}
+
+errcho() {
+	printf "$0: error: %s\n" "$*" >&2
 }
 
 from_image() {
@@ -35,6 +31,10 @@ from_image() {
 		(set -x; convert ".$j" "${j%.*}.pdf")
 		(set -x; rm ".$j")
 	done
+}
+
+warncho() {
+	printf "$0: warning: %s\n" "$*"
 }
 
 checkcmd convert

@@ -14,19 +14,19 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
+checkcmd() {
+	command -v "$1" || {
+		errcho "Please install '$1'."
+		exit 1
+	}
+}
+
 errcho() {
 	printf "$0: Error: %s\n" "$*" >&2
 }
 
 warncho() {
 	printf "$0: Warning: %s\n" "$*"
-}
-
-checkcmd() {
-	command -v "$1" || {
-		errcho "Please install '$1'."
-		exit 1
-	}
 }
 
 checkcmd mkvmerge
