@@ -16,7 +16,7 @@
 
 new_name() {
 	printf "%0$preceding_zeros""d" "$count"
-	printf " - %s" "$i"
+	printf ".%s" "${i##*.}"
 }
 
 preceding_zeros="$(echo -n "$#" | wc -c)";
