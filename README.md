@@ -27,7 +27,7 @@ Notably, installing to root-protected folders won't work because the makefile
 doesn't include `sudo` for privilege escalation. If you need it, you can
 manually add `sudo` to the makefile or simply run the whole `make` process as
 root. (The latter is terrible practice, but a few bad decisions never hurt
-anyone, right? <sup>right?<sup>)
+anyone, right? <sup>right?</sup>)
 
 ## If you find bugs,
 
