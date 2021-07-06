@@ -9,22 +9,28 @@
 
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
 
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
-new_name() {
-	printf "%0$preceding_zeros""d" "$count"
-	printf ".%s" "${i##*.}"
+[ -f "/tmp/pal.quickc.c" ] || {
+	touch "/tmp/pal.quickc.c" || exit 1
+	echo "#include <stdio.h>" >> "/tmp/pal.quickc.c"
+	echo "#include <stdlib.h>" >> "/tmp/pal.quickc.c"
+	echo "" >> "/tmp/pal.quickc.c"
+	echo "int main() {" >> "/tmp/pal.quickc.c"
+	echo "	exit(0);" >> "/tmp/pal.quickc.c"
+	echo "}" >> "/tmp/pal.quickc.c"
 }
 
-preceding_zeros="$(echo -n "$#" | wc -c)";
-[ "$preceding_zeros" -le "2" ] && preceding_zeros="2";
+editor "/tmp/pal.quickc.c"; clear
 
-count="1";
-
-for i in "$@"; do
-	(set -x; mv "$i" "$(new_name)")
-	(( count++ ))
+while ! gcc -std="gnu99" "/tmp/pal.quickc.c" -o "/tmp/pal.quickc"; do
+	read -p "Hit enter to continue"
+	editor "/tmp/pal.quickc.c"; clear
 done
+
+/tmp/pal.quickc
+exit $?
