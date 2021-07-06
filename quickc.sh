@@ -15,15 +15,24 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
-[ -f "/tmp/pal.quickc.c" ] || {
-	touch "/tmp/pal.quickc.c" || exit 1
-	echo "#include <stdio.h>" >> "/tmp/pal.quickc.c"
-	echo "#include <stdlib.h>" >> "/tmp/pal.quickc.c"
-	echo "" >> "/tmp/pal.quickc.c"
-	echo "int main() {" >> "/tmp/pal.quickc.c"
-	echo "	exit(0);" >> "/tmp/pal.quickc.c"
-	echo "}" >> "/tmp/pal.quickc.c"
-}
+if ! [ -d "$HOME/.config" ]; then
+	mkdir -p "$HOME/.config" || exit 1;
+fi
+
+if ! [ -f "$HOME/.config/pal.quickc.c" ]; then
+	touch "$HOME/.config/pal.quickc.c" || exit 1
+	echo "#include <stdio.h>" >> "$HOME/.config/pal.quickc.c"
+	echo "#include <stdlib.h>" >> "$HOME/.config/pal.quickc.c"
+	echo "" >> "$HOME/.config/pal.quickc.c"
+	echo "int main() {" >> "$HOME/.config/pal.quickc.c"
+	echo "	printf(\"Hello, World!\\n\");" >> "$HOME/.config/pal.quickc.c"
+	echo "	exit(0);" >> "$HOME/.config/pal.quickc.c"
+	echo "}" >> "$HOME/.config/pal.quickc.c"
+fi
+
+if ! [ -f "/tmp/pal.quickc.c" ]; then
+	cp "/.config/pal.quickc.c" "/tmp/pal.quickc.c" || exit 1
+fi
 
 editor "/tmp/pal.quickc.c"; clear
 
