@@ -31,7 +31,7 @@ if ! [ -f "$HOME/.config/pal.quickc.c" ]; then
 fi
 
 if ! [ -f "/tmp/pal.quickc.c" ]; then
-	cp "/.config/pal.quickc.c" "/tmp/pal.quickc.c" || exit 1
+	cp "$HOME/.config/pal.quickc.c" "/tmp/pal.quickc.c" || exit 1
 fi
 
 editor "/tmp/pal.quickc.c"; clear
