@@ -9,8 +9,9 @@ source code to ensure it actually works.
 Run `make all` to run `shellcheck` on the script files. (You'll need to
 have `shellcheck` installed for this to work.
 
-The current list of dependencies for each of the scripts is the following:
+The current combined list of dependencies for the scripts is the following:
 - `convert` (Imagemagick),
+- `gcc` (GNU Compiler Collection)
 - `ffmpeg` (FFMPEG),
 - `mkvmerge` (MKVToolNix),
 - `pdftk` (PDF Toolkit), and
