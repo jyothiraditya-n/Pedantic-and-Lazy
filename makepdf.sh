@@ -16,10 +16,7 @@
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
 checkcmd() {
-	command -v "$1" || {
-		errcho " cannot find command '$1'."
-		exit 1
-	}
+	command -v "$1" || { errcho "Please install '$1'."; exit 1; }
 }
 
 errcho() {

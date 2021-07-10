@@ -15,6 +15,17 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
+checkcmd() {
+	command -v "$1" || { errcho "Please install '$1'."; exit 1; }
+}
+
+errcho() {
+	printf "$0: Error: %s\n" "$*" >&2
+}
+
+checkcmd gcc
+checkcmd editor
+
 if ! [ -d "$HOME/.config" ]; then
 	mkdir -p "$HOME/.config" || exit 1;
 fi
