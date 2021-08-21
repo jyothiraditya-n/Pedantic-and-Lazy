@@ -15,24 +15,14 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
-checkcmd() {
-	command -v "$1" || { errcho "Please install '$1'."; exit 1; }
-}
-
-errcho() {
-	printf "$0: error: %s\n" "$*" >&2
-}
+checkcmd() { command -v "$1" || { printerr "'$1' not installed."; exit 1; }; }
+from_images() { for j in "$@"; do from_image "$j"; done; }
+printerr() { printf "$0: error: %s\n" "$*" >&2; }
 
 from_image() {
-	for j in "$@"; do
-		(set -x; convert -resize "$page_res" "$j" ".$j")
-		(set -x; convert ".$j" "${j%.*}.pdf")
-		(set -x; rm ".$j")
-	done
-}
-
-warncho() {
-	printf "$0: warning: %s\n" "$*"
+	(set -x; convert -resize "$page_res" "$1" ".$1")
+	(set -x; convert ".$1" "${1%.*}.pdf")
+	(set -x; rm ".$1")
 }
 
 checkcmd convert
@@ -43,17 +33,12 @@ read -rp "Page Resolution: " page_res
 
 for i in "$@"; do
 	if [ -d "$i" ]; then
-		echo "> cd '$i/'"
-		cd "$i/"
-
-		from_image *
-
-		echo "> cd ../"
-		cd ../
+		cd "$i/"; echo "+ cd '$i/'"
+		from_images *
+		cd ../; echo "+ cd ../"
 
 		(set -x; pdftk "$i"/*.pdf cat output "$i.pdf")
 		(set -x; rm "$i"/*.pdf)
-
 		continue
 	fi
 
@@ -62,20 +47,16 @@ for i in "$@"; do
 		(set -x; mkdir ".$i/")
 		(set -x; unzip "$i" -d ".$i/")
 
-		echo "> cd '.$i/'"
-		cd ".$i/"
-
-		from_image *
-
-		echo "> cd ../"
-		cd ../
+		cd ".$i/"; echo "+ cd '.$i/'"
+		from_images *
+		cd ../; echo "+ cd ../"
 
 		(set -x; pdftk ".$i"/*.pdf cat output "${i%.*}.pdf")
 		(set -x; rm -r ".$i")
 	;;
 
 	*)
-		from_image "$i"
+		from_images "$i"
 	;;
 	esac
 done

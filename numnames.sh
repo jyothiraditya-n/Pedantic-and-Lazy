@@ -15,17 +15,11 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
-new_name() {
-	printf "%0$preceding_zeros""d" "$count"
-	printf ".%s" "${i##*.}"
-}
-
-preceding_zeros="$(echo -n "$#" | wc -c)";
-[ "$preceding_zeros" -le "2" ] && preceding_zeros="2";
+extension() { case "$i" in *.*) printf ".%s" "${i##*.}";; esac; }
+new_name() { printf "%0$zeros""d%s" "$count" "$(extension)"; }
 
 count="1";
+zeros="$(echo -n "$#" | wc -c)";
 
-for i in "$@"; do
-	(set -x; mv "$i" "$(new_name)")
-	(( count++ ))
-done
+if [ "$zeros" -le "2" ]; then zeros="2"; fi
+for i in "$@"; do (set -x; mv "$i" "$(new_name)"); (( count++ )); done

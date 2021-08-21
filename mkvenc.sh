@@ -15,17 +15,9 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
-checkcmd() {
-	command -v "$1" || { errcho "Please install '$1'."; exit 1; }
-}
-
-errcho() {
-	printf "$0: Error: %s\n" "$*" >&2
-}
-
-warncho() {
-	printf "$0: Warning: %s\n" "$*"
-}
+checkcmd() { command -v "$1" || { printerr "'$1' not installed."; exit 1; }; }
+printerr() { printf "$0: Error: %s\n" "$*" >&2; }
+printwarn() { printf "$0: Warning: %s\n" "$*"; }
 
 checkcmd mkvmerge
 checkcmd ffmpeg
@@ -56,7 +48,7 @@ read -rp "FFMpeg Tune [film / animation / stillimage]: " ffmpeg_tune
 
 for i in "$@"; do
 	if [[ "$i" != *.mkv ]]; then
-		warncho "Ignoring '$i', because it's not an MKV file."
+		printwarn "Ignoring '$i', because it's not an MKV file."
 		continue
 	fi
 	

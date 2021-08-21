@@ -15,20 +15,13 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see <https://www.gnu.org/licenses/>.
 
-checkcmd() {
-	command -v "$1" || { errcho "Please install '$1'."; exit 1; }
-}
-
-errcho() {
-	printf "$0: Error: %s\n" "$*" >&2
-}
+checkcmd() { command -v "$1" || { printerr "'$1' not installed."; exit 1; }; }
+printerr() { printf "$0: Error: %s\n" "$*" >&2; }
 
 checkcmd gcc
 checkcmd editor
 
-if ! [ -d "$HOME/.config" ]; then
-	mkdir -p "$HOME/.config" || exit 1;
-fi
+if ! [ -d "$HOME/.config" ]; then mkdir -p "$HOME/.config" || exit 1; fi
 
 if ! [ -f "$HOME/.config/pal.quickc.c" ]; then
 	touch "$HOME/.config/pal.quickc.c" || exit 1
@@ -48,7 +41,7 @@ fi
 editor "/tmp/pal.quickc.c"; clear
 
 while ! gcc -std="gnu99" "/tmp/pal.quickc.c" -o "/tmp/pal.quickc"; do
-	read -p "Hit enter to continue"
+	read -p "Hit enter to continue";
 	editor "/tmp/pal.quickc.c"; clear
 done
 
